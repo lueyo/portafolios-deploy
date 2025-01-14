@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="">
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+  </head>
+  <body>
+    <script>
+  const path = window.location.pathname;
+  if (path.startsWith('/portafolios-deploy/s/')) {
+    const id = path.split('/s/')[1];
+    if (id) {
+      window.location.href = `https://link-shorter-bymq.onrender.com/s/${id}`;
+    }
+  }
+</script>
+
+</html>
