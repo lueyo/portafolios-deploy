@@ -68,7 +68,12 @@
             if (id) {
                 setTimeout(() => {
                     window.location.href = `https://link-shorter-bymq.onrender.com/s/${id}`;
-                }, 5000); // Redirige después de 5 segundos (puedes ajustar este valor)
+                }, 100); // Redirige después de 0.1 segundos (puedes ajustar este valor)
+            }
+            else{
+                setTimeout(() => {
+                    window.location.href = `https://link-shorter-bymq.onrender.com`;
+                }, 100); 
             }
         }
     </script>
