@@ -66,18 +66,18 @@
     if (path === '/s' || path === '/s/' || path === '/short') {
         // Si el path es exactamente /s o /s/, redirige a la página principal
         setTimeout(() => {
-            window.location.href = `https://link-shorter-bymq.onrender.com`;
+            window.location.href = `https://short.lueyo.es`;
         }, 100);
     } else if (path.startsWith('/s/')) {
         const id = path.split('/s/')[1];
         if (id) {
             setTimeout(() => {
-                window.location.href = `https://link-shorter-bymq.onrender.com/s/${id}`;
+                window.location.href = `https://short.lueyo.es/s/${id}`;
             }, 100);
         } else {
             // Caso extremo en el que hay /s/ pero sin ID después (ej: /s//)
             setTimeout(() => {
-                window.location.href = `https://link-shorter-bymq.onrender.com`;
+                window.location.href = `https://short.lueyo.es`;
             }, 100);
         }
     }
