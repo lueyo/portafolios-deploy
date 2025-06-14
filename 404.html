@@ -68,7 +68,12 @@
         setTimeout(() => {
             window.location.href = `https://short.lueyo.es`;
         }, 100);
-    } else if (path.startsWith('/s/')) {
+    } else if (path === '/bingo' || path === '/psoe' || path === '/sanxe' || path === '/bingosanxe'){
+        setTimeout(() => {
+            window.location.href = `https://bingosanxe.lueyo.es`;
+        }, 100);
+    }
+    else if (path.startsWith('/s/')) {
         const id = path.split('/s/')[1];
         if (id) {
             setTimeout(() => {
