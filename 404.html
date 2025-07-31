@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -42,6 +43,7 @@
             0% {
                 transform: rotate(0deg);
             }
+
             100% {
                 transform: rotate(360deg);
             }
@@ -55,42 +57,113 @@
         }
     </style>
 </head>
+
 <body>
     <h1>Redirecting...</h1>
     <h2>El acortador de links se desactiva automáticamente, puede tardar hasta 50 segundos en iniciar</h2>
     <div class="spinner"></div>
 
     <script>
-    const path = window.location.pathname;
+        const path = window.location.pathname;
 
-    if (path === '/s' || path === '/s/' || path === '/short') {
-        // Si el path es exactamente /s o /s/, redirige a la página principal
-        setTimeout(() => {
-            window.location.href = `https://short.lueyo.es`;
-        }, 100);
-    } else if (path === '/bingo' || path === '/psoe' || path === '/sanxe' || path === '/bingosanxe'){
-        setTimeout(() => {
-            window.location.href = `https://bingosanxe.lueyo.es`;
-        }, 100);
-    }
-    else if (path.startsWith('/s/')) {
-        const id = path.split('/s/')[1];
-        if (id) {
-            setTimeout(() => {
-                window.location.href = `https://short.lueyo.es/s/${id}`;
-            }, 100);
-        } else {
-            // Caso extremo en el que hay /s/ pero sin ID después (ej: /s//)
+        if (path === '/s' || path === '/s/' || path === '/short') {
+            // Si el path es exactamente /s o /s/, redirige a la página principal
             setTimeout(() => {
                 window.location.href = `https://short.lueyo.es`;
             }, 100);
+        } else if (path === '/bingo' || path === '/psoe' || path === '/sanxe' || path === '/bingosanxe') {
+            setTimeout(() => {
+                window.location.href = `https://bingosanxe.lueyo.es`;
+            }, 100);
         }
-    }
-</script>
+        else if (path === '/chat' || path === '/chat/') {
+            setTimeout(() => {
+                window.location.href = `https://chat.lueyo.es/`;
+            }, 100);
+        }
+        else if (path === '/apps') {
+            setTimeout(() => {
+                window.location.href = `https://apps.lueyo.es/`;
+            }, 100);
+        }
+        else if (path === '/beta') {
+            setTimeout(() => {
+                window.location.href = `https://beta.lueyo.es/`;
+            }, 100);
+        }
+        else if (path === '/codes' || path === '/codes/') {
+            setTimeout(() => {
+                window.location.href = `https://codes.lueyo.es/`;
+            }, 100);
+        }
+        else if (path === '/share' || path === '/share/' || path === '/tk') {
+            setTimeout(() => {
+                window.location.href = `https://tk.lueyo.es/`;
+            }, 100);
+        }
+        else if (path === '/tables') {
+            setTimeout(() => {
+                window.location.href = `https://tables.lueyo.es/`;
+            }, 100);
+        }
+        else if (path.startsWith('/s/')) {
+            const id = path.split('/s/')[1];
+            if (id) {
+                setTimeout(() => {
+                    window.location.href = `https://short.lueyo.es/s/${id}`;
+                }, 100);
+            } else {
+                // Caso extremo en el que hay /s/ pero sin ID después (ej: /s//)
+                setTimeout(() => {
+                    window.location.href = `https://short.lueyo.es`;
+                }, 100);
+            }
+        }
+        else if (path.startsWith('/chat/')) {
+            const id = path.split('/chat/')[1];
+            if (id) {
+                setTimeout(() => {
+                    window.location.href = `https://chat.lueyo.es/?r=${id}`;
+                }, 100);
+            }
+            else {
+                setTimeout(() => {
+                    window.location.href = `https://chat.lueyo.es/`;
+                }, 100);
+            }
+        }
+        else if (path.startsWith('/codes/share/')) {
+            const id = path.split('/codes/share/')[1];
+            if (id) {
+                setTimeout(() => {
+                    window.location.href = `https://codes.lueyo.es/?share=${id}`;
+                }, 100);
+            }
+            else {
+                setTimeout(() => {
+                    window.location.href = `https://codes.lueyo.es/`;
+                }, 100);
+            }
+        }
+        else if (path.startsWith('/codes/')) {
+            const id = path.split('/codes/')[1];
+            if (id) {
+                setTimeout(() => {
+                    window.location.href = `https://codes.lueyo.es/${id}`;
+                }, 100);
+            }
+            else {
+                setTimeout(() => {
+                    window.location.href = `https://codes.lueyo.es/`;
+                }, 100);
+            }
+        }
+    </script>
 
 
     <footer>
         &#127279; 2025 Lueyo. Ningún derecho reservado.
     </footer>
 </body>
+
 </html>
