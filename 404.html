@@ -98,12 +98,27 @@
         }
         else if (path === '/share' || path === '/share/' || path === '/tk') {
             setTimeout(() => {
-                window.location.href = `https://tk.lueyo.es/`;
+                window.location.href = `https://ttk.lueyo.es/`;
             }, 100);
         }
         else if (path === '/tables') {
             setTimeout(() => {
                 window.location.href = `https://tables.lueyo.es/`;
+            }, 100);
+        }
+        else if (path === '/ping') {
+            setTimeout(() => {
+                window.location.href = `https://ping.lueyo.es/`;
+            }, 100);
+        }
+        else if (path === '/ds') {
+            setTimeout(() => {
+                window.location.href = `https://ds.lueyo.es/`;
+            }, 100);
+        }
+        else if (path === '/rps' || path === '/piedra' || path === '/papel' || path === '/tijera' || path === '/rock' || path === '/paper' || path === '/scissors') {
+            setTimeout(() => {
+                window.location.href = `https://rps.lueyo.es/`;
             }, 100);
         }
         else if (path.startsWith('/s/')) {
@@ -129,6 +144,19 @@
             else {
                 setTimeout(() => {
                     window.location.href = `https://chat.lueyo.es/`;
+                }, 100);
+            }
+        }
+        else if (path.startsWith('/rps/')) {
+            const id = path.split('/rps/')[1];
+            if (id) {
+                setTimeout(() => {
+                    window.location.href = `https://rps.lueyo.es/?r=${id}`;
+                }, 100);
+            }
+            else {
+                setTimeout(() => {
+                    window.location.href = `https://rps.lueyo.es/`;
                 }, 100);
             }
         }
