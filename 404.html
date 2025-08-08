@@ -147,6 +147,19 @@
                 }, 100);
             }
         }
+        else if (path.startsWith('/share/')) {
+            const id = path.split('/share/')[1];
+            if (id) {
+                setTimeout(() => {
+                    window.location.href = `https://ttk.lueyo.es/${id}`;
+                }, 100);
+            }
+            else {
+                setTimeout(() => {
+                    window.location.href = `https://ttk.lueyo.es/`;
+                }, 100);
+            }
+        }
         else if (path.startsWith('/rps/')) {
             const id = path.split('/rps/')[1];
             if (id) {
