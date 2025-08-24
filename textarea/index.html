@@ -36,12 +36,9 @@
     header h1{font-size:18px;margin:0;color:var(--accent)}
     header p{margin:0;color:var(--muted);font-size:13px}
 
-    /* Textarea ampliado */
-    .textarea-wrap{
-      display:flex;flex-direction:column;gap:8px;
-    }
+    .textarea-wrap{display:flex;flex-direction:column;gap:8px;}
     textarea{
-      min-height:420px; /* ampliado por defecto */
+      min-height:420px;
       max-height:80vh;
       padding:18px;
       font-size:16px;
@@ -50,7 +47,7 @@
       background:linear-gradient(180deg, rgba(10,14,20,0.45), rgba(10,14,20,0.35));
       border:1px solid rgba(255,255,255,0.04);
       border-radius:10px;
-      resize:vertical; /* el usuario puede redimensionar verticalmente */
+      resize:vertical;
       outline:none;
       box-shadow: inset 0 1px 0 rgba(255,255,255,0.02);
       transition:box-shadow .15s ease, transform .08s ease;
@@ -58,9 +55,7 @@
     }
     textarea:focus{box-shadow:0 6px 40px rgba(0,0,0,0.5); transform: translateY(-2px)}
 
-    .controls{
-      display:flex;gap:8px;align-items:center;justify-content:space-between;margin-top:6px;
-    }
+    .controls{display:flex;gap:8px;align-items:center;justify-content:space-between;margin-top:6px;}
     .left-controls{display:flex;gap:8px;align-items:center}
     button{
       background:var(--glass);
@@ -96,6 +91,8 @@
             <button id="btnAutoGrow" class="small">Auto-ajustar altura</button>
             <button id="btnFull" class="small">Pantalla completa</button>
             <button id="btnClear" class="small">Limpiar</button>
+            <!-- Botón para leer con voz -->
+            <button id="btnSpeak" class="small">🔊 TTS</button>
           </div>
           <div>
             <label class="status">Tamaño mínimo: 420px · Máx altura: 80vh</label>
@@ -111,6 +108,7 @@
     const btnAutoGrow = document.getElementById('btnAutoGrow');
     const btnFull = document.getElementById('btnFull');
     const btnClear = document.getElementById('btnClear');
+    const btnSpeak = document.getElementById('btnSpeak');
 
     function updateStatus(){
       const text = ta.value;
@@ -119,11 +117,10 @@
       status.textContent = `${chars} caracteres · ${lines} líneas`;
     }
 
-    // Auto-grow feature: adjust height to content
+    // Auto-grow
     let autoGrow = false;
     function autoAdjust(){
       ta.style.height = 'auto';
-      // add small offset to avoid scrollbar flicker
       ta.style.height = (ta.scrollHeight + 6) + 'px';
     }
 
@@ -140,9 +137,7 @@
 
     btnFull.addEventListener('click', async () => {
       if (!document.fullscreenElement) {
-        try{
-          await document.documentElement.requestFullscreen();
-        }catch(e){console.warn(e)}
+        try{ await document.documentElement.requestFullscreen(); }catch(e){console.warn(e)}
       } else {
         try{ await document.exitFullscreen(); }catch(e){console.warn(e)}
       }
@@ -155,18 +150,17 @@
       }
     });
 
-    // Initialize status
-    updateStatus();
-
-    // Optional: load demo content when holding Alt key and clicking textarea (dev convenience)
-    ta.addEventListener('auxclick', (e) => {
-      if(e.altKey){
-        ta.value = `Ejemplo de texto para probar el textarea ampliado.\nLínea 2\nLínea 3\n`.repeat(6);
-        updateStatus();
-        if(autoGrow) autoAdjust();
-      }
+    // Botón de lectura (Text-to-Speech nativo)
+    btnSpeak.addEventListener('click', () => {
+      const text = ta.value.trim();
+      if (!text) return alert("Escribe algo primero.");
+      const utterance = new SpeechSynthesisUtterance(text);
+      utterance.lang = "es-ES"; // voz en español
+      speechSynthesis.speak(utterance);
     });
 
+    // Inicializa estado
+    updateStatus();
   </script>
 </body>
 </html>
