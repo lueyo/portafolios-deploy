@@ -68,6 +68,21 @@
 
         if (path === '/s' || path === '/s/' || path === '/short') {
             // Si el path es exactamente /s o /s/, redirige a la página principal
+            fetch(`https://short.lueyo.es/ping`)
+                .then(response => {
+                    if (response.ok) {
+                        window.location.href = `https://short.lueyo.es`;
+                    } else {
+                        throw new Error('Ping failed');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error during ping:', error);
+                    // Fallback redirect after ping fails
+
+                    window.location.href = `https://short.lueyo.es`;
+
+                });
             setTimeout(() => {
                 window.location.href = `https://short.lueyo.es`;
             }, 100);
