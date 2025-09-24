@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Cargador de HTML externo</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f3f4f6;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      height: 100vh;
+      align-items: center;
+      justify-content: center;
+    }
+    #app {
+      background: white;
+      padding: 2rem;
+      border-radius: 1rem;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      max-width: 600px;
+      width: 100%;
+    }
+    h1 {
+      font-size: 1.5rem;
+      margin-bottom: 1rem;
+      color: #111827;
+      text-align: center;
+    }
+    input, textarea {
+      width: 100%;
+      padding: 0.75rem;
+      margin-bottom: 1rem;
+      border: 1px solid #d1d5db;
+      border-radius: 0.5rem;
+      font-size: 1rem;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+    input:focus, textarea:focus {
+      border-color: #2563eb;
+    }
+    button {
+      background: #2563eb;
+      color: white;
+      border: none;
+      padding: 0.75rem 1.5rem;
+      border-radius: 0.5rem;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background 0.2s;
+      width: 100%;
+    }
+    button:hover {
+      background: #1d4ed8;
+    }
+    textarea {
+      height: 150px;
+      resize: vertical;
+    }
+  </style>
+</head>
+<body>
+  <div id="app">
+    <h1>Cargar HTML</h1>
+    <input type="text" id="urlInput" placeholder="https://ejemplo.com/pagina.html">
+    <textarea id="htmlInput" placeholder="O pega aquí tu código HTML"></textarea>
+    <button id="loadBtn">Cargar</button>
+  </div>
+
+  <script>
+    function getQueryParam(name) {
+      const params = new URLSearchParams(window.location.search);
+      return params.get(name);
+    }
+
+    async function loadExternalHtml(url) {
+      try {
+        const response = await fetch(url);
+        if (!response.ok) throw new Error("Error en la petición: " + response.status);
+        const html = await response.text();
+        document.open();
+        document.write(html);
+        document.close();
+        // For "p" parameter, keep the URL as is
+      } catch (error) {
+        alert("No se pudo cargar el contenido: " + error.message);
+      }
+    }
+
+    function loadHtmlDirectly(html) {
+      document.open();
+      document.write(html);
+      document.close();
+    }
+
+    const urlParam = getQueryParam("p");
+
+    if (urlParam) {
+      loadExternalHtml(urlParam);
+    } else {
+      document.getElementById("loadBtn").addEventListener("click", () => {
+        const urlVal = document.getElementById("urlInput").value.trim();
+        const htmlVal = document.getElementById("htmlInput").value.trim();
+
+        if (urlVal && htmlVal) {
+          alert("Solo puedes usar enlace o HTML, no ambos.");
+          return;
+        }
+
+        if (urlVal) {
+          // For URL, set "p" parameter and reload
+          const newUrl = new URL(window.location.href);
+          newUrl.searchParams.set("p", urlVal);
+          window.location.href = newUrl.toString();
+        } else if (htmlVal) {
+          loadHtmlDirectly(htmlVal);
+        } else {
+          alert("Introduce un enlace o código HTML.");
+        }
+      });
+    }
+  </script>
+</body>
+</html>
