@@ -133,17 +133,31 @@
         }
         else if (path.startsWith('/s/')) {
             const id = path.split('/s/')[1];
+
             if (id) {
-                setTimeout(() => {
-                    window.location.href = `https://short.lueyo.es/s/${id}`;
-                }, 100);
+                // Make ping request before redirecting
+                fetch(`https://short.lueyo.es/ping`)
+                    .then(response => {
+                        if (response.ok) {
+                            window.location.href = `https://short.lueyo.es/s/${id}`;
+                        } else {
+                            throw new Error('Ping failed');
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error during ping:', error);
+                        // Fallback redirect after ping fails
+                        setTimeout(() => {
+                            window.location.href = `https://short.lueyo.es/s/${id}`;
+                        }, 1000);
+                    });
             } else {
-                // Caso extremo en el que hay /s/ pero sin ID después (ej: /s//)
                 setTimeout(() => {
                     window.location.href = `https://short.lueyo.es`;
                 }, 100);
             }
         }
+
         else if (path.startsWith('/chat/')) {
             const id = path.split('/chat/')[1];
             if (id) {
