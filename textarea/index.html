@@ -1,77 +1,144 @@
 <!doctype html>
 <html lang="es">
+
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
+  
+  <link rel="icon" type="image/png" href="moUHY8w.png" />
   <title>Textarea Ampliado</title>
   <style>
-    :root{
-      --bg:#0f1724;
-      --card:#0b1220;
-      --accent:#6ee7b7;
-      --muted:#9aa4b2;
-      --glass: rgba(255,255,255,0.04);
+    :root {
+      --bg: #0f1724;
+      --card: #0b1220;
+      --accent: #6ee7b7;
+      --muted: #9aa4b2;
+      --glass: rgba(255, 255, 255, 0.04);
     }
-    html,body{height:100%;margin:0;font-family:Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;color:#e6eef6;background:linear-gradient(180deg,#071129 0%, #081627 100%)}
-    .app{
-      min-height:100vh;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      padding:32px;
-      box-sizing:border-box;
-    }
-    .panel{
-      width:100%;
-      max-width:1000px;
-      background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
-      border-radius:14px;
-      box-shadow:0 6px 30px rgba(2,6,23,0.6);
-      padding:18px;
-      box-sizing:border-box;
-      backdrop-filter: blur(6px);
-      border:1px solid rgba(255,255,255,0.03);
-    }
-    header{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
-    header h1{font-size:18px;margin:0;color:var(--accent)}
-    header p{margin:0;color:var(--muted);font-size:13px}
 
-    .textarea-wrap{display:flex;flex-direction:column;gap:8px;}
-    textarea{
-      min-height:420px;
-      max-height:80vh;
-      padding:18px;
-      font-size:16px;
-      line-height:1.5;
-      color:#e6eef6;
-      background:linear-gradient(180deg, rgba(10,14,20,0.45), rgba(10,14,20,0.35));
-      border:1px solid rgba(255,255,255,0.04);
-      border-radius:10px;
-      resize:vertical;
-      outline:none;
-      box-shadow: inset 0 1px 0 rgba(255,255,255,0.02);
-      transition:box-shadow .15s ease, transform .08s ease;
+    html,
+    body {
+      height: 100%;
+      margin: 0;
+      font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+      color: #e6eef6;
+      background: linear-gradient(180deg, #071129 0%, #081627 100%)
+    }
+
+    .app {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 32px;
+      box-sizing: border-box;
+    }
+
+    .panel {
+      width: 100%;
+      max-width: 1000px;
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.02), rgba(255, 255, 255, 0.01));
+      border-radius: 14px;
+      box-shadow: 0 6px 30px rgba(2, 6, 23, 0.6);
+      padding: 18px;
+      box-sizing: border-box;
+      backdrop-filter: blur(6px);
+      border: 1px solid rgba(255, 255, 255, 0.03);
+    }
+
+    header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 12px
+    }
+
+    header h1 {
+      font-size: 18px;
+      margin: 0;
+      color: var(--accent)
+    }
+
+    header p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 13px
+    }
+
+    .textarea-wrap {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    textarea {
+      min-height: 420px;
+      max-height: 80vh;
+      padding: 18px;
+      font-size: 16px;
+      line-height: 1.5;
+      color: #e6eef6;
+      background: linear-gradient(180deg, rgba(10, 14, 20, 0.45), rgba(10, 14, 20, 0.35));
+      border: 1px solid rgba(255, 255, 255, 0.04);
+      border-radius: 10px;
+      resize: vertical;
+      outline: none;
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.02);
+      transition: box-shadow .15s ease, transform .08s ease;
       font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
     }
-    textarea:focus{box-shadow:0 6px 40px rgba(0,0,0,0.5); transform: translateY(-2px)}
 
-    .controls{display:flex;gap:8px;align-items:center;justify-content:space-between;margin-top:6px;}
-    .left-controls{display:flex;gap:8px;align-items:center}
-    button{
-      background:var(--glass);
-      color:var(--accent);
-      border:1px solid rgba(255,255,255,0.04);
-      padding:8px 12px;border-radius:8px;font-weight:600;cursor:pointer
+    textarea:focus {
+      box-shadow: 0 6px 40px rgba(0, 0, 0, 0.5);
+      transform: translateY(-2px)
     }
-    .small{padding:6px 10px;font-size:13px}
-    .status{font-size:13px;color:var(--muted)}
 
-    @media (max-width:640px){
-      textarea{min-height:320px}
-      .panel{padding:12px}
+    .controls {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: 6px;
+    }
+
+    .left-controls {
+      display: flex;
+      gap: 8px;
+      align-items: center
+    }
+
+    button {
+      background: var(--glass);
+      color: var(--accent);
+      border: 1px solid rgba(255, 255, 255, 0.04);
+      padding: 8px 12px;
+      border-radius: 8px;
+      font-weight: 600;
+      cursor: pointer
+    }
+
+    .small {
+      padding: 6px 10px;
+      font-size: 13px
+    }
+
+    .status {
+      font-size: 13px;
+      color: var(--muted)
+    }
+
+    @media (max-width:640px) {
+      textarea {
+        min-height: 320px
+      }
+
+      .panel {
+        padding: 12px
+      }
     }
   </style>
 </head>
+
 <body>
   <div class="app">
     <div class="panel">
@@ -80,11 +147,12 @@
           <h1>Textarea ampliado</h1>
           <p>Textarea grande, redimensionable y con funciones útiles.</p>
         </div>
-        <div class="status" id="status">0 caracteres · 0 líneas</div>
+        <div class="status" id="status">0 caracteres · 0 palabras · 0 líneas</div>
       </header>
 
       <div class="textarea-wrap">
-        <textarea id="bigTextarea" placeholder="Escribe aquí... (ej. notas, borradores, ideas)." aria-label="Área de texto ampliada"></textarea>
+        <textarea id="bigTextarea" placeholder="Escribe aquí... (ej. notas, borradores, ideas)."
+          aria-label="Área de texto ampliada"></textarea>
 
         <div class="controls">
           <div class="left-controls">
@@ -110,41 +178,43 @@
     const btnClear = document.getElementById('btnClear');
     const btnSpeak = document.getElementById('btnSpeak');
 
-    function updateStatus(){
+    function updateStatus() {
       const text = ta.value;
       const chars = text.length;
       const lines = text.split('\n').length;
-      status.textContent = `${chars} caracteres · ${lines} líneas`;
+      // Cuenta palabras: ignora espacios en blanco al inicio/final y múltiples espacios
+      const words = text.trim().match(/\S+/g)?.length || 0;
+      status.textContent = `${chars} caracteres · ${words} palabras · ${lines} líneas`;
     }
 
     // Auto-grow
     let autoGrow = false;
-    function autoAdjust(){
+    function autoAdjust() {
       ta.style.height = 'auto';
       ta.style.height = (ta.scrollHeight + 6) + 'px';
     }
 
     ta.addEventListener('input', () => {
       updateStatus();
-      if(autoGrow) autoAdjust();
+      if (autoGrow) autoAdjust();
     });
 
     btnAutoGrow.addEventListener('click', () => {
       autoGrow = !autoGrow;
       btnAutoGrow.textContent = autoGrow ? 'Auto-ajustar: ON' : 'Auto-ajustar altura';
-      if(autoGrow) autoAdjust();
+      if (autoGrow) autoAdjust();
     });
 
     btnFull.addEventListener('click', async () => {
       if (!document.fullscreenElement) {
-        try{ await document.documentElement.requestFullscreen(); }catch(e){console.warn(e)}
+        try { await document.documentElement.requestFullscreen(); } catch (e) { console.warn(e) }
       } else {
-        try{ await document.exitFullscreen(); }catch(e){console.warn(e)}
+        try { await document.exitFullscreen(); } catch (e) { console.warn(e) }
       }
     });
 
     btnClear.addEventListener('click', () => {
-      if(confirm('¿Limpiar el contenido del textarea?')){
+      if (confirm('¿Limpiar el contenido del textarea?')) {
         ta.value = '';
         updateStatus();
       }
@@ -163,4 +233,5 @@
     updateStatus();
   </script>
 </body>
+
 </html>
