@@ -4,7 +4,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  
+
   <link rel="icon" type="image/png" href="moUHY8w.png" />
   <title>Textarea Ampliado</title>
   <style>
@@ -161,6 +161,7 @@
             <button id="btnClear" class="small">Limpiar</button>
             <!-- Botón para leer con voz -->
             <button id="btnSpeak" class="small">🔊 TTS</button>
+            <button id="btnDownload" class="small">⬇️ Descargar</button>
           </div>
           <div>
             <label class="status">Tamaño mínimo: 420px · Máx altura: 80vh</label>
@@ -177,6 +178,7 @@
     const btnFull = document.getElementById('btnFull');
     const btnClear = document.getElementById('btnClear');
     const btnSpeak = document.getElementById('btnSpeak');
+    const btnDownload = document.getElementById('btnDownload');
 
     function updateStatus() {
       const text = ta.value;
@@ -227,6 +229,23 @@
       const utterance = new SpeechSynthesisUtterance(text);
       utterance.lang = "es-ES"; // voz en español
       speechSynthesis.speak(utterance);
+    });
+
+    // Botón de descarga
+    btnDownload.addEventListener('click', () => {
+      const text = ta.value.trim();
+      if (!text) return alert("Escribe algo primero para descargar.");
+      const timestamp = new Date().toISOString().replace(/[:.]/g, '-').slice(0, -5); // YYYY-MM-DDTHH-MM-SS
+      const filename = `lueyonotepad-${timestamp}.txt`;
+      const blob = new Blob([text], { type: 'text/plain' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = filename;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
     });
 
     // Inicializa estado
