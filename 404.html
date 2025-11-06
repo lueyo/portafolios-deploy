@@ -204,6 +204,19 @@
                 }, 100);
             }
         }
+        else if (path.startsWith('/randomyt/')) {
+            const id = path.split('/randomyt/')[1];
+            if (id) {
+                setTimeout(() => {
+                    window.location.href = `https://beta.lueyo.es/randomyt/?id=${id}`;
+                }, 100);
+            }
+            else {
+                setTimeout(() => {
+                    window.location.href = `https://beta.lueyo.es/randomyt/?p=create`;
+                }, 100);
+            }
+        }
         else if (path.startsWith('/rps/')) {
             const id = path.split('/rps/')[1];
             if (id) {
