@@ -132,6 +132,36 @@
         .hash-item strong {
             color: #fff;
         }
+
+        #pc-start-btn {
+            position: absolute;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(211, 47, 47, 0.8);
+            /* Rojo estilo retro */
+            border: 2px solid #fff;
+            color: #fff;
+            font-size: 18px;
+            font-weight: bold;
+            padding: 10px 40px;
+            border-radius: 5px;
+            cursor: pointer;
+            z-index: 1000;
+            backdrop-filter: blur(5px);
+            display: none;
+            /* Oculto por defecto */
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.5);
+            transition: background 0.2s;
+        }
+
+        #pc-start-btn:hover {
+            background: rgba(255, 0, 0, 1);
+        }
+
+        #pc-start-btn:active {
+            transform: translateX(-50%) scale(0.95);
+        }
     </style>
 </head>
 
@@ -141,7 +171,7 @@
         <p>A demake of <a href="https://www.instagram.com/thegeorgefloydgame/" target="_blank">George Floyd Game</a> for
             Sega Genesis.</p>
 
-        <div id="game-wrapper">
+        <<div id="game-wrapper">
 
             <div id="thumbnail-container" onclick="iniciarJuego()">
                 <img src="caratula.png" alt="Carátula del Juego">
@@ -152,19 +182,21 @@
 
             <div id="emulator-container"></div>
 
-        </div>
+            <button id="pc-start-btn" onclick="presionarStartPC()">START</button>
 
-        <a href="georgefloydgen.bin" class="btn" download="georgefloydgen.bin">Descargar ROM (.bin)</a>
+    </div>
 
-        <div class="hashes" id="hash-container">
-            <h3>Verificación de Integridad (Hashes):</h3>
-            <p id="loading-hashes">Obteniendo información del servidor...</p>
-        </div>
+    <a href="georgefloydgen.bin" class="btn" download="georgefloydgen.bin">Descargar ROM (.bin)</a>
+
+    <div class="hashes" id="hash-container">
+        <h3>Verificación de Integridad (Hashes):</h3>
+        <p id="loading-hashes">Obteniendo información del servidor...</p>
+    </div>
     </div>
 
     <script>
         EJS_player = '#emulator-container';
-        EJS_core = 'picodrive';  // <-- Cambiamos el motor a PicoDrive
+        EJS_core = 'genesis_plus_gx';
         EJS_gameUrl = 'georgefloydgen.bin';
         EJS_pathtodata = '/floyd/data/';
 
@@ -212,14 +244,42 @@
 
     <script>
         function iniciarJuego() {
-            // Ocultar la carátula y mostrar el emulador
             document.getElementById('thumbnail-container').style.display = 'none';
             document.getElementById('emulator-container').style.display = 'block';
 
-            // Re-inicializar el emulador si es necesario
+            // Mostrar el botón START solo en ordenador (si NO hay pantalla táctil)
+            if (!('ontouchstart' in window) && navigator.maxTouchPoints === 0) {
+                document.getElementById('pc-start-btn').style.display = 'block';
+            }
+
             if (window.EJS && window.EJS.init) {
                 window.EJS.init();
             }
+        }
+
+        function presionarStartPC() {
+            // EmulatorJS carga el juego dentro de un iframe, debemos apuntar ahí
+            const iframe = document.querySelector('#emulator-container iframe');
+            const target = iframe ? iframe.contentWindow.document : document;
+
+            // Disparamos tanto Enter (Start) como la 'x' (Botón 1) por si acaso
+            const teclas = ['Enter', 'x'];
+
+            teclas.forEach(tecla => {
+                target.dispatchEvent(new KeyboardEvent('keydown', { key: tecla, bubbles: true }));
+            });
+
+            setTimeout(() => {
+                teclas.forEach(tecla => {
+                    target.dispatchEvent(new KeyboardEvent('keyup', { key: tecla, bubbles: true }));
+                });
+
+                // Ocultamos el botón tras pulsarlo para que no tape el juego
+                document.getElementById('pc-start-btn').style.display = 'none';
+
+                // Devolvemos el foco al emulador para que puedas seguir jugando con el teclado
+                if (iframe) iframe.focus();
+            }, 150);
         }
     </script>
 
