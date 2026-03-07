@@ -163,30 +163,33 @@
     </div>
 
     <script>
-        // Definir las variables para EmulatorJS ANTES de cargar el script
-        window.EJS_player = '#emulator-container';
-        window.EJS_core = 'genesis_plus_gx';
-        window.EJS_gameUrl = 'georgefloydgen.bin';
-        window.EJS_pathtodata = '/floyd/data/';
+       // Definir las variables para EmulatorJS ANTES de cargar el script
+window.EJS_player = '#emulator-container';
+window.EJS_core = 'genesis_plus_gx';
+window.EJS_gameUrl = 'georgefloydgen.bin';
+window.EJS_pathtodata = '/floyd/data/';
 
-        // Configuración de controles predefinidos
-        // Start = Enter, D-Pad = Flechas, Botones = Z, X, C
-        window.EJS_controls = {
-            "keyboard": {
-                "Enter": "Start",
-                "ArrowUp": "Up",
-                "ArrowDown": "Down",
-                "ArrowLeft": "Left",
-                "ArrowRight": "Right",
-                "z": "A",
-                "x": "B",
-                "c": "C"
-            }
-        };
+// Configuración correcta de controles predefinidos (Jugador 1 = índice 0)
+window.EJS_defaultControls = {
+    0: {
+        // D-Pad = Flechas
+        4: { 'value': 'up arrow' },    // Arriba
+        5: { 'value': 'down arrow' },  // Abajo
+        6: { 'value': 'left arrow' },  // Izquierda
+        7: { 'value': 'right arrow' }, // Derecha
 
-        // Habilitar controles táctiles para móviles
-        window.EJS_virtualGamepad = true;
-        window.EJS_virtualGamepadMultiTouch = true;
+        // Start = Enter
+        3: { 'value': 'enter' },       // Start
+
+        // Botones Genesis: A = z, B = x, C = c
+        1: { 'value': 'z' },           // ID 1 (Y en RetroPad) -> A en Genesis
+        0: { 'value': 'x' },           // ID 0 (B en RetroPad) -> B en Genesis
+        8: { 'value': 'c' }            // ID 8 (A en RetroPad) -> C en Genesis
+    }
+};
+
+// Elimina las variables inventadas de controles táctiles.
+// Aparecerán automáticamente al cargar la web desde un smartphone real.
     </script>
     <script src="/floyd/data/loader.js"></script>
 
