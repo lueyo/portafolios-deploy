@@ -163,33 +163,52 @@
     </div>
 
     <script>
-       // Definir las variables para EmulatorJS ANTES de cargar el script
-window.EJS_player = '#emulator-container';
-window.EJS_core = 'genesis_plus_gx';
-window.EJS_gameUrl = 'georgefloydgen.bin';
-window.EJS_pathtodata = '/floyd/data/';
+        // Definir las variables para EmulatorJS ANTES de cargar el scriptwindow.EJS_player = '#emulator-container';
+        window.EJS_core = 'genesis_plus_gx';
+        window.EJS_gameUrl = 'georgefloydgen.bin';
+        window.EJS_pathtodata = '/floyd/data/';
 
-// Configuración correcta de controles predefinidos (Jugador 1 = índice 0)
-window.EJS_defaultControls = {
-    0: {
-        // D-Pad = Flechas
-        4: { 'value': 'up arrow' },    // Arriba
-        5: { 'value': 'down arrow' },  // Abajo
-        6: { 'value': 'left arrow' },  // Izquierda
-        7: { 'value': 'right arrow' }, // Derecha
+        // 1. SOLUCIÓN AL TECLADO Y AL ERROR (Debemos declarar los 20 botones obligatoriamente)
+        window.EJS_defaultControls = {
+            0: {
+                0: { 'value': 'x' },           // ID 0 (Retro B) -> Botón B en Genesis
+                1: { 'value': 'z' },           // ID 1 (Retro Y) -> Botón A en Genesis
+                2: { 'value': 'shift' },       // ID 2 (Select)
+                3: { 'value': 'enter' },       // ID 3 (START) <-- Aquí está mapeado el Start
+                4: { 'value': 'up arrow' },    // Flecha Arriba
+                5: { 'value': 'down arrow' },  // Flecha Abajo
+                6: { 'value': 'left arrow' },  // Flecha Izquierda
+                7: { 'value': 'right arrow' }, // Flecha Derecha
+                8: { 'value': 'c' },           // ID 8 (Retro A) -> Botón C en Genesis
+                9: { 'value': 'v' },           // ID 9 (Retro X) - No se usa en Gen 3 botones
+                10: { 'value': 'a' },          // L1
+                11: { 'value': 's' },          // R1
+                12: { 'value': 'q' },          // L2
+                13: { 'value': 'w' },          // R2
+                14: { 'value': 'e' },          // L3
+                15: { 'value': 'r' },          // R3
+                16: { 'value': 't' },          // L-Stick Arriba
+                17: { 'value': 'y' },          // L-Stick Abajo
+                18: { 'value': 'u' },          // L-Stick Izquierda
+                19: { 'value': 'i' }           // L-Stick Derecha
+            }
+        };
 
-        // Start = Enter
-        3: { 'value': 'enter' },       // Start
+        // 2. SOLUCIÓN A LOS CONTROLES TÁCTILES (Mostrar 3 botones + Start + Cruceta)
+        window.EJS_VirtualGamepadSettings = [
+            // Cruceta (D-Pad) en la zona izquierda
+            { type: "dpad", location: "left", left: "50%", right: "50%", joystickInput: false, inputValues: [4, 5, 6, 7] },
 
-        // Botones Genesis: A = z, B = x, C = c
-        1: { 'value': 'z' },           // ID 1 (Y en RetroPad) -> A en Genesis
-        0: { 'value': 'x' },           // ID 0 (B en RetroPad) -> B en Genesis
-        8: { 'value': 'c' }            // ID 8 (A en RetroPad) -> C en Genesis
-    }
-};
+            // Botón Start en el centro de la pantalla
+            { type: "button", text: "Start", id: "btnStart", location: "center", left: 60, fontSize: 15, block: true, input_value: 3 },
 
-// Elimina las variables inventadas de controles táctiles.
-// Aparecerán automáticamente al cargar la web desde un smartphone real.
+            // Botones de Genesis: A (Z), B (X), C (C) alineados en la zona derecha
+            { type: "button", text: "A", id: "btnA", location: "right", left: 30, top: 50, bold: true, input_value: 1 },
+            { type: "button", text: "B", id: "btnB", location: "right", left: 65, top: 40, bold: true, input_value: 0 },
+            { type: "button", text: "C", id: "btnC", location: "right", left: 100, top: 50, bold: true, input_value: 8 }
+        ];
+        // Elimina las variables inventadas de controles táctiles.
+        // Aparecerán automáticamente al cargar la web desde un smartphone real.
     </script>
     <script src="/floyd/data/loader.js"></script>
 
