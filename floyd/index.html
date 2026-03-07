@@ -1,265 +1,43 @@
-<!DOCTYPE html>
-<html lang="es">
+<script>
+    EJS_player = '#emulator-container';
+    EJS_core = 'genesis_plus_gx';
+    EJS_gameUrl = 'georgefloydgen.bin';
+    EJS_pathtodata = '/floyd/data/';
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The George Floyd Game Demake</title>
-    <link rel="shortcut icon" href="caratula.png" type="image/x-icon">
-    <style>
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #1e1e1e;
-            color: #f0f0f0;
-            text-align: center;
-            padding: 20px;
-            margin: 0;
+    // Los 20 botones del teclado
+    EJS_defaultControls = {
+        0: {
+            0: { 'value': 'x' },           // B
+            1: { 'value': 'z' },           // A
+            2: { 'value': 'shift' },       // Select
+            3: { 'value': 'enter' },       // Start
+            4: { 'value': 'up arrow' },    // Arriba
+            5: { 'value': 'down arrow' },  // Abajo
+            6: { 'value': 'left arrow' },  // Izquierda
+            7: { 'value': 'right arrow' }, // Derecha
+            8: { 'value': 'c' },           // C
+            9: { 'value': 'v' },
+            10: { 'value': 'a' },
+            11: { 'value': 's' },
+            12: { 'value': 'q' },
+            13: { 'value': 'w' },
+            14: { 'value': 'e' },
+            15: { 'value': 'r' },
+            16: { 'value': 't' },
+            17: { 'value': 'y' },
+            18: { 'value': 'u' },
+            19: { 'value': 'i' }
         }
+    };
 
-        .container {
-            max-width: 800px;
-            margin: 0 auto;
-            background-color: #2a2a2a;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
-        }
+    // Configuración táctil
+    EJS_VirtualGamepadSettings = [
+        { type: "dpad", location: "left", left: "50%", right: "50%", joystickInput: false, inputValues: [4, 5, 6, 7] },
+        { type: "button", text: "Start", id: "btnStart", location: "center", left: 60, fontSize: 15, block: true, input_value: 3 },
+        { type: "button", text: "A", id: "btnA", location: "right", left: 30, top: 50, bold: true, input_value: 1 },
+        { type: "button", text: "B", id: "btnB", location: "right", left: 65, top: 40, bold: true, input_value: 0 },
+        { type: "button", text: "C", id: "btnC", location: "right", left: 100, top: 50, bold: true, input_value: 8 }
+    ];
+</script>
 
-        h1 {
-            color: #ffeb3b;
-        }
-
-        /* Estilos del área del juego (Carátula + Emulador) */
-        #game-wrapper {
-            position: relative;
-            width: 100%;
-            max-width: 640px;
-            /* Ancho recomendado para juegos retro */
-            margin: 20px auto;
-            background: #000;
-            border: 2px solid #444;
-            border-radius: 5px;
-            overflow: hidden;
-        }
-
-        /* Estilos de la miniatura/carátula */
-        #thumbnail-container {
-            position: relative;
-            width: 100%;
-            cursor: pointer;
-        }
-
-        #thumbnail-container img {
-            width: 100%;
-            height: auto;
-            display: block;
-        }
-
-        .play-overlay {
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(0, 0, 0, 0.5);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: background 0.3s;
-        }
-
-        .play-overlay:hover {
-            background: rgba(0, 0, 0, 0.2);
-        }
-
-        .play-icon {
-            font-size: 80px;
-            color: rgba(255, 255, 255, 0.8);
-            text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.8);
-            transition: transform 0.2s;
-        }
-
-        .play-overlay:hover .play-icon {
-            transform: scale(1.1);
-            color: #fff;
-        }
-
-        /* Contenedor del emulador (oculto por defecto) */
-        #emulator-container {
-            width: 100%;
-            height: 480px;
-            display: none;
-        }
-
-        .btn {
-            display: inline-block;
-            padding: 12px 24px;
-            background-color: #d32f2f;
-            color: white;
-            text-decoration: none;
-            font-weight: bold;
-            border-radius: 5px;
-            margin: 15px 0;
-            transition: background-color 0.3s;
-        }
-
-        .btn:hover {
-            background-color: #b71c1c;
-        }
-
-        .hashes {
-            background: #111;
-            padding: 15px;
-            border-radius: 5px;
-            text-align: left;
-            margin-top: 20px;
-            border: 1px solid #333;
-        }
-
-        .hashes h3 {
-            margin-top: 0;
-            color: #4caf50;
-        }
-
-        .hash-item {
-            margin: 8px 0;
-            font-family: 'Courier New', Courier, monospace;
-            word-break: break-all;
-            font-size: 0.9em;
-            color: #ccc;
-        }
-
-        .hash-item strong {
-            color: #fff;
-        }
-    </style>
-</head>
-
-<body>
-    <div class="container">
-        <h1>The George Floyd Game Demake</h1>
-        <p>A demake of <a href="https://www.instagram.com/thegeorgefloydgame/" target="_blank">George Floyd Game</a> for
-            Sega Genesis.</p>
-
-        <div id="game-wrapper">
-
-            <div id="thumbnail-container" onclick="iniciarJuego()">
-                <img src="caratula.png" alt="Carátula del Juego">
-                <div class="play-overlay">
-                    <div class="play-icon">▶</div>
-                </div>
-            </div>
-
-            <div id="emulator-container"></div>
-
-        </div>
-
-        <a href="georgefloydgen.bin" class="btn" download="georgefloydgen.bin">Descargar ROM (.bin)</a>
-
-        <div class="hashes" id="hash-container">
-            <h3>Verificación de Integridad (Hashes):</h3>
-            <p id="loading-hashes">Obteniendo información del servidor...</p>
-        </div>
-    </div>
-
-    <script>
-        // Definir las variables para EmulatorJS ANTES de cargar el scriptwindow.EJS_player = '#emulator-container';
-        window.EJS_core = 'genesis_plus_gx';
-        window.EJS_gameUrl = 'georgefloydgen.bin';
-        window.EJS_pathtodata = '/floyd/data/';
-
-        // 1. SOLUCIÓN AL TECLADO Y AL ERROR (Debemos declarar los 20 botones obligatoriamente)
-        window.EJS_defaultControls = {
-            0: {
-                0: { 'value': 'x' },           // ID 0 (Retro B) -> Botón B en Genesis
-                1: { 'value': 'z' },           // ID 1 (Retro Y) -> Botón A en Genesis
-                2: { 'value': 'shift' },       // ID 2 (Select)
-                3: { 'value': 'enter' },       // ID 3 (START) <-- Aquí está mapeado el Start
-                4: { 'value': 'up arrow' },    // Flecha Arriba
-                5: { 'value': 'down arrow' },  // Flecha Abajo
-                6: { 'value': 'left arrow' },  // Flecha Izquierda
-                7: { 'value': 'right arrow' }, // Flecha Derecha
-                8: { 'value': 'c' },           // ID 8 (Retro A) -> Botón C en Genesis
-                9: { 'value': 'v' },           // ID 9 (Retro X) - No se usa en Gen 3 botones
-                10: { 'value': 'a' },          // L1
-                11: { 'value': 's' },          // R1
-                12: { 'value': 'q' },          // L2
-                13: { 'value': 'w' },          // R2
-                14: { 'value': 'e' },          // L3
-                15: { 'value': 'r' },          // R3
-                16: { 'value': 't' },          // L-Stick Arriba
-                17: { 'value': 'y' },          // L-Stick Abajo
-                18: { 'value': 'u' },          // L-Stick Izquierda
-                19: { 'value': 'i' }           // L-Stick Derecha
-            }
-        };
-
-        // 2. SOLUCIÓN A LOS CONTROLES TÁCTILES (Mostrar 3 botones + Start + Cruceta)
-        window.EJS_VirtualGamepadSettings = [
-            // Cruceta (D-Pad) en la zona izquierda
-            { type: "dpad", location: "left", left: "50%", right: "50%", joystickInput: false, inputValues: [4, 5, 6, 7] },
-
-            // Botón Start en el centro de la pantalla
-            { type: "button", text: "Start", id: "btnStart", location: "center", left: 60, fontSize: 15, block: true, input_value: 3 },
-
-            // Botones de Genesis: A (Z), B (X), C (C) alineados en la zona derecha
-            { type: "button", text: "A", id: "btnA", location: "right", left: 30, top: 50, bold: true, input_value: 1 },
-            { type: "button", text: "B", id: "btnB", location: "right", left: 65, top: 40, bold: true, input_value: 0 },
-            { type: "button", text: "C", id: "btnC", location: "right", left: 100, top: 50, bold: true, input_value: 8 }
-        ];
-        // Elimina las variables inventadas de controles táctiles.
-        // Aparecerán automáticamente al cargar la web desde un smartphone real.
-    </script>
-    <script src="/floyd/data/loader.js"></script>
-
-    <script>
-        function iniciarJuego() {
-            // Ocultar la carátula y mostrar el emulador
-            document.getElementById('thumbnail-container').style.display = 'none';
-            document.getElementById('emulator-container').style.display = 'block';
-
-            // Re-inicializar el emulador si es necesario
-            if (window.EJS && window.EJS.init) {
-                window.EJS.init();
-            }
-        }
-    </script>
-
-    <script>
-        const jsonUrl = 'https://www.lueyo.es/floyd/checksum.json';
-        const hashContainer = document.getElementById('hash-container');
-        const loadingText = document.getElementById('loading-hashes');
-
-        fetch(jsonUrl)
-            .then(response => {
-                if (!response.ok) throw new Error('Status: ' + response.status);
-                return response.json();
-            })
-            .then(data => {
-                loadingText.style.display = 'none';
-                const hashTypes = ['SHA256', 'SHA512', 'MD5', 'SHA1'];
-                let foundAny = false;
-
-                hashTypes.forEach(type => {
-                    if (data[type]) {
-                        foundAny = true;
-                        const p = document.createElement('p');
-                        p.className = 'hash-item';
-                        p.innerHTML = `<strong>${type}:</strong> ${data[type]}`;
-                        hashContainer.appendChild(p);
-                    }
-                });
-
-                if (!foundAny) {
-                    loadingText.style.display = 'block';
-                    loadingText.innerText = 'No se encontraron los hashes.';
-                }
-            })
-            .catch(error => {
-                loadingText.innerText = 'Error al cargar los hashes.';
-                console.error('Error:', error);
-            });
-    </script>
-</body>
-
-</html>
+<script src="/floyd/data/loader.js"></script>
