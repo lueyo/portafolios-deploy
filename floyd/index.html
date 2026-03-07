@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>The George Floyd Game Demake</title>
+    <link rel="shortcut icon" href="caratula.png" type="image/x-icon">
     <style>
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -167,6 +168,21 @@
         window.EJS_core = 'genesis_plus_gx';
         window.EJS_gameUrl = 'georgefloydgen.bin';
         window.EJS_pathtodata = '/floyd/data/';
+
+        // Configuración de controles predefinidos
+        // Start = Enter, D-Pad = Flechas, Botones = Z, X, C
+        window.EJS_controls = {
+            "keyboard": {
+                "Enter": "Start",
+                "ArrowUp": "Up",
+                "ArrowDown": "Down",
+                "ArrowLeft": "Left",
+                "ArrowRight": "Right",
+                "z": "A",
+                "x": "B",
+                "c": "C"
+            }
+        };
     </script>
     <script src="/floyd/data/loader.js"></script>
 
